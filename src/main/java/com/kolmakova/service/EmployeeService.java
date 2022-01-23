@@ -2,10 +2,12 @@ package com.kolmakova.service;
 
 import com.kolmakova.dao.EmployeeDao;
 import com.kolmakova.dto.Employee;
+import com.sun.istack.internal.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class EmployeeService {
@@ -21,12 +23,13 @@ public class EmployeeService {
         return employeeDao.getAllEmployees();
     }
 
-    public void save(Employee employee){
-        employeeDao.addEmployee(employee);
+    public Employee save(Employee employee){
+        return employeeDao.addEmployee(employee);
     }
 
-    public void update(Long id, Employee employee){
-        employeeDao.updateEmployee(id, employee);
+    public Employee update(Employee employee){
+        employeeDao.updateEmployee(employee);
+        return getById(employee.getEmployeeId());
     }
 
     public void delete(Long id){

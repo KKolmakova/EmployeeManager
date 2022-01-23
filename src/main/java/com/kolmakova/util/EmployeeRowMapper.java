@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.Objects;
 
 import static com.kolmakova.util.EmployeeConstants.*;
@@ -23,7 +24,7 @@ public class EmployeeRowMapper implements RowMapper<Employee> {
         employee.setLastName(rs.getString(LAST_NAME));
         employee.setDepartmentId(rs.getLong(DEPARTMENT_ID));
         employee.setJobTitle(rs.getString(JOB_TITLE));
-        employee.setGender(Objects.nonNull(rs.getString(GENDER)) ? Gender.valueOf(rs.getString(GENDER)) : null);
+        employee.setGender(Objects.nonNull(rs.getString(GENDER)) ? Gender.valueOf(rs.getString(GENDER).toUpperCase(Locale.ENGLISH)) /*Gender.valueOf(rs.getString(GENDER))*/ : null);
         employee.setDateOfBirth(rs.getDate(DATE_OF_BIRTH));
 
         return employee;

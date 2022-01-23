@@ -25,13 +25,13 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public void create(@RequestBody Employee employee) {
-        employeeService.save(employee);
+    public Employee create(@RequestBody Employee employee) {
+        return employeeService.save(employee);
     }
 
-    @PutMapping("{id}")
-    public void update(@PathVariable Long id, @RequestBody Employee employee) {
-        employeeService.update(id, employee);
+    @PutMapping
+    public Employee update(@RequestBody Employee employee) {
+        return employeeService.update(employee);
     }
 
     @DeleteMapping("{id}")
