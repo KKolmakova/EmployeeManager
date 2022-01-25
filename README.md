@@ -8,6 +8,6 @@
 
 ### Дополнительные файлы
 * **employeeDB.sql** - создание структуры и наполенение таблицы employee, _расположение:_ utils/db.
-* **EmployeeManager.postman_collection.json** - демонтрация работоспособности приложения с использованием Postman, _расположение:_ utils/suits/postman
-* **EmployeeManager.jmx**  - демонтрация работоспособности приложения с использованием Jmeter, _расположенние:_ utils/suits/jmeter.
+* **EmployeeManager.postman_collection.json** - демонстрация работоспособности приложения с использованием Postman, _расположение:_ utils/suits/postman
+* **EmployeeManager.jmx**  - демонстрация работоспособности приложения с использованием Jmeter, _расположенние:_ utils/suits/jmeter.
 * **docker-compose.yml** - настройка и запуск docker-контейнера c БД PostgresSQL.
