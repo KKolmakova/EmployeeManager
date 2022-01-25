@@ -17,10 +17,9 @@ import static com.kolmakova.util.EmployeeConstants.*;
 @Repository
 public class EmployeeDao {
 
-    private static final String SELECT_ALL_EMPLOYEES = String.format("SELECT * FROM %s", EMPLOYEE_TABLE);
-    private static final String SELECT_BY_ID = String.format("SELECT * FROM %s WHERE %s=?", EMPLOYEE_TABLE, ID);
-    private static final String INSERT_EMPLOYEE = String.format("INSERT INTO %s(%s, %s, %s, %s, %s, %s) " +
-                    "VALUES (?, ?, ?, ?, ?, ?)",
+    static final String GET_ALL = String.format("SELECT * FROM %s", EMPLOYEE_TABLE);
+    static final String GET_BY_ID = String.format("SELECT * FROM %s WHERE %s=?", EMPLOYEE_TABLE, ID);
+    static final String SAVE = String.format("INSERT INTO %s(%s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?)",
             EMPLOYEE_TABLE,
             FIRST_NAME,
             LAST_NAME,
@@ -28,30 +27,39 @@ public class EmployeeDao {
             JOB_TITLE,
             GENDER,
             DATE_OF_BIRTH);
-    private static final String UPDATE_EMPLOYEE = String.format("UPDATE %s SET %s=?, %s=?, %s=?, %s=?, %s=?, %s=?" +
-            " WHERE %s=?", EMPLOYEE_TABLE, FIRST_NAME, LAST_NAME, DEPARTMENT_ID, JOB_TITLE, GENDER, DATE_OF_BIRTH, ID);
-    private static final String DELETE_EMPLOYEE = String.format("DELETE FROM employee WHERE %s=?", ID);
+    static final String UPDATE = String.format("UPDATE %s SET %s=?, %s=?, %s=?, %s=?, %s=?, %s=?" +
+                    " WHERE %s=?",
+            EMPLOYEE_TABLE,
+            FIRST_NAME,
+            LAST_NAME,
+            DEPARTMENT_ID,
+            JOB_TITLE,
+            GENDER,
+            DATE_OF_BIRTH,
+            ID);
+    static final String DELETE = String.format("DELETE FROM employee WHERE %s=?", ID);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
     private RowMapper<Employee> employeeRowMapper;
 
-    public Employee getById(Long id) {
-        List<Employee> employeeList = jdbcTemplate.query(SELECT_BY_ID, employeeRowMapper, id);
+    public Employee getOne(Integer id) {
+        List<Employee> employeeList = jdbcTemplate.query(GET_BY_ID, employeeRowMapper, id);
+        int firstElementIndex = 0;
 
-        return (employeeList.isEmpty()) ? null : employeeList.get(0);
+        return (employeeList.isEmpty()) ? null : employeeList.get(firstElementIndex);
     }
 
-    public List<Employee> getAllEmployees() {
-        return jdbcTemplate.query(SELECT_ALL_EMPLOYEES, employeeRowMapper);
+    public List<Employee> getAll() {
+        return jdbcTemplate.query(GET_ALL, employeeRowMapper);
     }
 
-    public Employee addEmployee(Employee employee) {
+    public Employee save(Employee employee) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(INSERT_EMPLOYEE, new String[]{ID});
+            PreparedStatement ps = connection.prepareStatement(SAVE, new String[]{ID});
 
             ps.setString(1, employee.getFirstName());
             ps.setString(2, employee.getLastName());
@@ -63,11 +71,11 @@ public class EmployeeDao {
             return ps;
         }, keyHolder);
 
-        return getById(Objects.requireNonNull(keyHolder.getKey()).longValue());
+        return getOne(Objects.requireNonNull(keyHolder.getKey()).intValue());
     }
 
-    public void updateEmployee(Employee employee) {
-        jdbcTemplate.update(UPDATE_EMPLOYEE,
+    public Employee update(Employee employee) {
+        jdbcTemplate.update(UPDATE,
                 employee.getFirstName(),
                 employee.getLastName(),
                 employee.getDepartmentId(),
@@ -75,9 +83,11 @@ public class EmployeeDao {
                 employee.getGender().toString(),
                 employee.getDateOfBirth(),
                 employee.getEmployeeId());
+
+        return getOne(employee.getEmployeeId());
     }
 
-    public void deleteEmployee(Long id) {
-        jdbcTemplate.update(DELETE_EMPLOYEE, id);
+    public void delete(Integer id) {
+        jdbcTemplate.update(DELETE, id);
     }
 }

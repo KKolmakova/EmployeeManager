@@ -15,13 +15,13 @@ public class EmployeeController {
     public EmployeeService employeeService;
 
     @GetMapping
-    public List<Employee> readAll() {
+    public List<Employee> getAll() {
         return employeeService.getAll();
     }
 
     @GetMapping("{id}")
-    public Employee readOne(@PathVariable Long id) {
-        return employeeService.getById(id);
+    public Employee getOne(@PathVariable Integer id) {
+        return employeeService.getOne(id);
     }
 
     @PostMapping
@@ -35,7 +35,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Integer id) {
         employeeService.delete(id);
     }
 }

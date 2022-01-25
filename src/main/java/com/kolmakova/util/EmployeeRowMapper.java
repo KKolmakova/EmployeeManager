@@ -19,12 +19,12 @@ public class EmployeeRowMapper implements RowMapper<Employee> {
     public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {
         Employee employee = new Employee();
 
-        employee.setEmployeeId(rs.getLong(ID));
+        employee.setEmployeeId(rs.getInt(ID));
         employee.setFirstName(rs.getString(FIRST_NAME));
         employee.setLastName(rs.getString(LAST_NAME));
-        employee.setDepartmentId(rs.getLong(DEPARTMENT_ID));
+        employee.setDepartmentId(rs.getInt(DEPARTMENT_ID));
         employee.setJobTitle(rs.getString(JOB_TITLE));
-        employee.setGender(Objects.nonNull(rs.getString(GENDER)) ? Gender.valueOf(rs.getString(GENDER).toUpperCase(Locale.ENGLISH)) /*Gender.valueOf(rs.getString(GENDER))*/ : null);
+        employee.setGender(Objects.nonNull(rs.getString(GENDER)) ? Gender.valueOf(rs.getString(GENDER).toUpperCase(Locale.ENGLISH)) : null);
         employee.setDateOfBirth(rs.getDate(DATE_OF_BIRTH));
 
         return employee;

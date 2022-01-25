@@ -4,19 +4,19 @@ import java.sql.Date;
 
 public class Employee {
 
-    private Long employeeId;
+    private Integer employeeId;
     private String firstName;
     private String lastName;
-    private Long departmentId;
+    private Integer departmentId;
     private String jobTitle;
     private Gender gender;
     private Date dateOfBirth;
 
-    public Long getEmployeeId() {
+    public Integer getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId(Long employeeId) {
+    public void setEmployeeId(Integer employeeId) {
         this.employeeId = employeeId;
     }
 
@@ -36,11 +36,11 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public Long getDepartmentId() {
+    public Integer getDepartmentId() {
         return departmentId;
     }
 
-    public void setDepartmentId(Long departmentId) {
+    public void setDepartmentId(Integer departmentId) {
         this.departmentId = departmentId;
     }
 
